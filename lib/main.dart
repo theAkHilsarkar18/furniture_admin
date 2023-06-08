@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:furniture_admin/screens/add/view/addscree.dart';
 import 'package:furniture_admin/screens/home/view/homescreen.dart';
 import 'package:furniture_admin/screens/signin/view/signin.dart';
+import 'package:furniture_admin/screens/signin/view/signup.dart';
+import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:furniture_admin/utils/firebase_notification.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 Future<void> main()
 async {
@@ -14,15 +17,19 @@ async {
   await Firebase.initializeApp();
   await FirebaseNotification.firebaseNotification.initNotification();
   await FirebaseNotification.firebaseNotification.initFirebaseMessaging();
+  FirebaseHelper.firebaseHelper.getUserId();
   runApp(
-    GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      getPages: [
-        GetPage(name: '/', page:() => HomeScreen()),
-        GetPage(name: '/signin', page:() => SigninScreen()),
-        GetPage(name: '/add', page:() => AddScreen()),
-      ],
+    Sizer(
+      builder: (context, orientation, deviceType) =>  GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/add',
+        getPages: [
+          GetPage(name: '/', page:() => HomeScreen()),
+          GetPage(name: '/signin', page:() => SigninScreen()),
+          GetPage(name: '/signup', page:() => SignupScreen()),
+          GetPage(name: '/add', page:() => AddScreen()),
+        ],
+      ),
     ),
   );
 }

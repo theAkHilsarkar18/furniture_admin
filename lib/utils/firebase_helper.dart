@@ -72,19 +72,46 @@ class FirebaseHelper
     return m1;
   }
 
+  // TODO Firebase CRUD Operations
+
+  // firebase database clouding and data handling
+
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
+  // get user id
+  String? id;
+  void getUserId()
+  async {
+    User? user  = await firebaseAuth.currentUser;
+    id = user!.uid;
+  }
 
   /// add product
-  void addProduct(String pname, Map<String,dynamic> m1)
-  {
-    firebaseFirestore.collection('ProductList').doc('$pname').set(m1);
+  Future<void> addProduct(Map<String,dynamic> m1)
+  async {
+    firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc('${m1['name']}').set(m1);
   }
 
   /// read or get data from server or firestore
+
   Stream<QuerySnapshot<Map<String, dynamic>>> readProductData()
   {
-    return firebaseFirestore.collection('ProductList').snapshots();
+    return firebaseFirestore.collection('Admin').doc(id).collection('ProductList').snapshots();
+  }
+
+  // edit data of firebase
+
+  void editProduct(String docId,Map<String,dynamic> m1)
+  {
+    firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc(docId).set(m1);
+  }
+
+  // delete data
+
+  void deleteProduct(String docId)
+  {
+    firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc(docId).delete();
   }
 
 

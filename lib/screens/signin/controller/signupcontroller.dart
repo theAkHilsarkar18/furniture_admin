@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class SigninController extends GetxController
+class SignupController extends GetxController
 {
   RxBool isVisible = true.obs;
   void visibilityChangeOfPassword()
