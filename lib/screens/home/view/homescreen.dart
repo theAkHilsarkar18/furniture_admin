@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_admin/screens/add/controller/addcontroller.dart';
+import 'package:furniture_admin/screens/home/controller/homecontroller.dart';
 import 'package:furniture_admin/screens/home/model/homemodel.dart';
 import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:furniture_admin/utils/firebase_notification.dart';
@@ -14,6 +16,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+HomeController homeController = Get.put(HomeController());
+AddController addController = Get.put(AddController());
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           onPressed: () {
+            addController.imgLink.value = '';
+            addController.selectedCategory.value = '';
+            print('${addController.imgLink.value} ===img link ===========');
             Get.toNamed('/add');
           },
-          child: Icon(Icons.add,color: Colors.white),
+          child: Icon(Icons.add, color: Colors.white),
         ),
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
@@ -44,33 +52,36 @@ class _HomeScreenState extends State<HomeScreen> {
             if (snapshot.hasError) {
               return Text('${snapshot.error}');
             } else if (snapshot.hasData) {
-              List<HomeModel> productList = [];
               QuerySnapshot? querySnapshot = snapshot.data;
+              homeController.productList.clear();
               for (var x in querySnapshot!.docs) {
                 Map data = x.data() as Map;
                 HomeModel h1 = HomeModel(
-                  name: data['name'],
-                  price: data['price'],
-                  description: data['description'],
-                  img: data['img'],
-                  stock: int.parse(data['stock']),
-                  rating: int.parse(data['rating']),
-                  categoryId: data['categoryId'],
-                );
-                productList.add(h1);
+                    productId: x.id,
+                    name: data['name'],
+                    price: data['price'],
+                    description: data['description'],
+                    img: data['img'],
+                    stock: int.parse(data['stock']),
+                    rating: int.parse(data['rating']),
+                    categoryId: data['categoryId'],
+                    adminId: '${homeController.adminId.value}');
+
+                homeController.productList.add(h1);
               }
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) => productBox(
-                  productList[index].img!,
-                  productList[index].name!,
-                  productList[index].description!,
-                  productList[index].stock!,
-                  productList[index].categoryId!,
-                  productList[index].rating!,
-                  productList[index].price!,
+                  index,
+                  homeController.productList[index].img!,
+                  homeController.productList[index].name!,
+                  homeController.productList[index].description!,
+                  homeController.productList[index].stock!,
+                  homeController.productList[index].categoryId!,
+                  homeController.productList[index].rating!,
+                  homeController.productList[index].price!,
                 ),
-                itemCount: productList.length,
+                itemCount: homeController.productList.length,
               );
 
               // return ListView.builder(itemBuilder: (context, index) => Text('data'),itemCount: 5,);
@@ -82,8 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget productBox(String img, String name, String desc, int stock,
-      String categoryId, int rating, String price) {
+  Widget productBox(int index, String img, String name, String desc, int stock,
+      int categoryId, int rating, String price) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(5.sp),
@@ -117,7 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       '${name}',
                       style: GoogleFonts.overpass(
@@ -171,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        categoryId == '1'
+                        categoryId == 1
                             ? Text(
                                 'Sofa',
                                 style: GoogleFonts.overpass(
@@ -180,21 +193,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontSize: 10.sp,
                                 ),
                               )
-                            : categoryId=='2'?Text(
-                                'Arm chair',
-                                style: GoogleFonts.overpass(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 10.sp,
-                                ),
-                              ):Text(
-                          'Bed',
-                          style: GoogleFonts.overpass(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 10.sp,
-                          ),
-                        ),
+                            : categoryId == 2
+                                ? Text(
+                                    'Arm chair',
+                                    style: GoogleFonts.overpass(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10.sp,
+                                    ),
+                                  )
+                                : Text(
+                                    'Bed',
+                                    style: GoogleFonts.overpass(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10.sp,
+                                    ),
+                                  ),
                       ],
                     ),
                     SizedBox(
@@ -245,13 +260,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Spacer(),
-              InkWell(onTap: () {
-                // delete method
-              },child: Icon(Icons.delete,size: 18.sp,color: Colors.grey)),
-              SizedBox(width: 3.w,),
-              InkWell(onTap: () {
-                // edit method
-              },child: Icon(Icons.edit_square,size: 16.sp,color: Colors.grey,)),
+              InkWell(
+                onTap: () {
+                  // delete method
+                  String? docId = homeController.productList[index].productId;
+                  FirebaseHelper.firebaseHelper.deleteProduct(docId!);
+                },
+                child: Icon(
+                  Icons.delete,
+                  size: 18.sp,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                width: 3.w,
+              ),
+              InkWell(
+                onTap: () {
+                  // edit method
+                },
+                child: Icon(
+                  Icons.edit_square,
+                  size: 16.sp,
+                  color: Colors.grey,
+                ),
+              ),
             ],
           ),
           Divider(color: Colors.grey, thickness: 0.2),

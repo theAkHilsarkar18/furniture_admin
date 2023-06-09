@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:furniture_admin/screens/add/controller/addcontroller.dart';
+import 'package:furniture_admin/screens/home/controller/homecontroller.dart';
 import 'package:furniture_admin/screens/home/model/homemodel.dart';
 import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController txtImg = TextEditingController();
 
   AddController addController = Get.put(AddController());
+  HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -60,30 +62,48 @@ class _AddScreenState extends State<AddScreen> {
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.category_outlined,
-                            color: Colors.black54,
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text('Product category',
-                              style: GoogleFonts.overpass(
-                                  color: Colors.black87,
-                                  fontSize: 12.sp,
-                                  letterSpacing: 1)),
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                // open category bottom-sheet
-                              },
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: Colors.black54,
-                              )),
-                        ],
+                      child: Obx(
+                        () => Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.category_outlined,
+                              color: Colors.black54,
+                            ),
+                            SizedBox(
+                              width: 3.w,
+                            ),
+                            addController.selectedCategory.value==''?Text('Product category',
+                                style: GoogleFonts.overpass(
+                                    color: Colors.black87,
+                                    fontSize: 12.sp,
+                                    letterSpacing: 1)):Obx(
+                                      () =>  Text('${addController.selectedCategory.value}',
+                                style: GoogleFonts.overpass(
+                                      color: Colors.black87,
+                                      fontSize: 12.sp,
+                                      // fontWeight: FontWeight.w500,
+                                      letterSpacing: 1)),
+                                    ),
+                            Spacer(),
+                            InkWell(
+                                onTap: () {
+                                  // open category bottom-sheet
+                                  showModalBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.circular(10)),
+                                    builder: (context) => Container(height: 13.h,child: categoryBox()),
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.keyboard_arrow_down_outlined,
+                                  color: Colors.black54,
+                                )),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -225,53 +245,113 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Obx(
-                    () => Container(
-                      height: 20.h,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.grey,
-                        ),
+                  padding: EdgeInsets.all(10.0),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 20.h,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.grey,
                       ),
-                      padding: EdgeInsets.all(5.sp),
-                      child: addController.imgLink.value == ''
-                          ? Image.asset(
-                              'assets/add/img.png',
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(child: Image.network('${txtImg.text}')),
-                            ),
+                    ),
+                    child: Obx(
+                      () => Container(
+                        height: 17.h,
+                        // width: 35.w,
+                        decoration: BoxDecoration(
+                          // color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: addController.imgLink.value == ''
+                            ? Image.asset('assets/add/img.png')
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  '${addController.imgLink.value}',
+                                  fit: BoxFit.cover,
+                                )),
+                      ),
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // String pname = txtName.text;
-                    //
-                    // Map<String,dynamic> m1 = {
-                    //   'description': txtDesc.text,
-                    //   'categoryId': txtCategoryId.text,
-                    //   'img': txtImg.text,
-                    //   'name': txtName.text,
-                    //   'price': txtPrice.text,
-                    //   'rating': txtRating.text,
-                    //   'stock': txtStock.text,
-                    // };
-                    // FirebaseHelper.firebaseHelper.addProduct(m1);
-                    // Get.toNamed('/home');
-                  },
-                  child: Text('Add'),
-                ),
+                InkWell(
+                    onTap: () {
+                      Map<String, dynamic> m1 = {
+                        'description': txtDesc.text,
+                        'categoryId': '2',
+                        'img': txtImg.text,
+                        'name': txtName.text,
+                        'price': txtPrice.text,
+                        'rating': '4',
+                        'stock': txtStock.text,
+                        'adminId': '${homeController.adminId.value}',
+                      };
+
+                      FirebaseHelper.firebaseHelper.addProductDetail(m1);
+                      Get.toNamed('/home');
+                    },
+                    child: addProductBox()),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget categoryBox() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: addController.categoryList.length,
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            addController.selectCategory('${addController.categoryNameList[index]}');
+            print('${addController.selectedCategory.value}---------selected category');
+            Get.back();
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.black87,
+            radius: 32.sp,
+            child: Container(
+              margin: EdgeInsets.all(10),
+                height: 10.h,
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    addController.categoryList[index],
+                    SizedBox(height: 2,),
+                    Text('${addController.categoryNameList[index]}', style: GoogleFonts.overpass(fontSize: 10.sp,color: Colors.white)),
+                  ],
+                )),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget addProductBox() {
+    return Container(
+      margin: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 20),
+      height: 6.h,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      alignment: Alignment.center,
+      child: Text('Add product',
+          style: GoogleFonts.overpass(
+              color: Colors.white, letterSpacing: 1, fontSize: 13.sp)),
     );
   }
 }

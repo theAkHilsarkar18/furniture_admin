@@ -26,7 +26,7 @@ async {
           useMaterial3: true
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/signin',
+        initialRoute: '/',
         getPages: [
           GetPage(name: '/', page:() => HomeScreen()),
           GetPage(name: '/signin', page:() => SigninScreen()),

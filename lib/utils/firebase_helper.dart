@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:furniture_admin/screens/home/controller/homecontroller.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseHelper
@@ -81,23 +83,27 @@ class FirebaseHelper
 
   // get user id
   String? id;
+  HomeController homeController = Get.put(HomeController());
   void getUserId()
   async {
     User? user  = await firebaseAuth.currentUser;
     id = user!.uid;
+    homeController.adminId.value = user.uid;
+    print('$id ============');
   }
 
-  /// add product
-  Future<void> addProduct(Map<String,dynamic> m1)
-  async {
-    firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc('${m1['name']}').set(m1);
+  // add data without any login id
+
+  void addProductDetail(Map<String, dynamic> m1)
+  {
+    firebaseFirestore.collection('ProductList').add(m1);
   }
 
   /// read or get data from server or firestore
 
   Stream<QuerySnapshot<Map<String, dynamic>>> readProductData()
   {
-    return firebaseFirestore.collection('Admin').doc(id).collection('ProductList').snapshots();
+    return firebaseFirestore.collection('ProductList').snapshots();
   }
 
   // edit data of firebase
@@ -105,13 +111,15 @@ class FirebaseHelper
   void editProduct(String docId,Map<String,dynamic> m1)
   {
     firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc(docId).set(m1);
+    print('Product edited');
   }
 
   // delete data
 
   void deleteProduct(String docId)
   {
-    firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc(docId).delete();
+    firebaseFirestore.collection('ProductList').doc(docId).delete();
+    print('Product deleted');
   }
 
 
