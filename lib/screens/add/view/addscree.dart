@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:furniture_admin/screens/add/controller/addcontroller.dart';
 import 'package:furniture_admin/screens/home/model/homemodel.dart';
 import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,8 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController txtStock = TextEditingController();
   TextEditingController txtCategoryId = TextEditingController();
   TextEditingController txtImg = TextEditingController();
+
+  AddController addController = Get.put(AddController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +56,33 @@ class _AddScreenState extends State<AddScreen> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(width: 1,color: Colors.grey)
-                    ),
+                        border: Border.all(width: 1, color: Colors.grey)),
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Icon(Icons.category_outlined,color: Colors.black54,),
-                          SizedBox(width: 2.w,),
-                          Text('Product category',style: GoogleFonts.overpass(color: Colors.black87,fontSize: 12.sp,letterSpacing: 1)),
+                          Icon(
+                            Icons.category_outlined,
+                            color: Colors.black54,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Text('Product category',
+                              style: GoogleFonts.overpass(
+                                  color: Colors.black87,
+                                  fontSize: 12.sp,
+                                  letterSpacing: 1)),
                           Spacer(),
-                          InkWell(onTap: () {
-                            // open category bottom-sheet
-                          },child: Icon(Icons.keyboard_arrow_down_outlined,color: Colors.black54,)),
-
+                          InkWell(
+                              onTap: () {
+                                // open category bottom-sheet
+                              },
+                              child: Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: Colors.black54,
+                              )),
                         ],
                       ),
                     ),
@@ -79,17 +94,22 @@ class _AddScreenState extends State<AddScreen> {
                     controller: txtName,
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
+                    style: GoogleFonts.overpass(
+                        letterSpacing: 1, color: Colors.black),
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.chair_outlined),
-                      label: Text('Product name',style: GoogleFonts.overpass(color: Colors.black87,fontSize: 12.sp,letterSpacing: 1.5)),
+                      label: Text('Product name',
+                          style: GoogleFonts.overpass(
+                              color: Colors.black87,
+                              fontSize: 12.sp,
+                              letterSpacing: 1.5)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 1.5)
-                      ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 1),
+                        borderSide: BorderSide(color: Colors.grey, width: 1),
                       ),
                     ),
                   ),
@@ -100,17 +120,22 @@ class _AddScreenState extends State<AddScreen> {
                     controller: txtPrice,
                     keyboardType: TextInputType.number,
                     cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
+                    style: GoogleFonts.overpass(
+                        letterSpacing: 1, color: Colors.black),
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.attach_money),
-                      label: Text('Product price',style: GoogleFonts.overpass(color: Colors.black87,fontSize: 12.sp,letterSpacing: 1)),
+                      label: Text('Product price',
+                          style: GoogleFonts.overpass(
+                              color: Colors.black87,
+                              fontSize: 12.sp,
+                              letterSpacing: 1)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 1.5)
-                      ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 1),
+                        borderSide: BorderSide(color: Colors.grey, width: 1),
                       ),
                     ),
                   ),
@@ -123,18 +148,23 @@ class _AddScreenState extends State<AddScreen> {
                     maxLength: 150,
                     keyboardType: TextInputType.text,
                     cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
+                    style: GoogleFonts.overpass(
+                        letterSpacing: 1, color: Colors.black),
                     decoration: InputDecoration(
                       counterText: '',
                       prefixIcon: Icon(Icons.description_outlined),
-                      label: Text('Product Description',style: GoogleFonts.overpass(color: Colors.black87,fontSize: 12.sp,letterSpacing: 1)),
+                      label: Text('Product Description',
+                          style: GoogleFonts.overpass(
+                              color: Colors.black87,
+                              fontSize: 12.sp,
+                              letterSpacing: 1)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 1.5)
-                      ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 1),
+                        borderSide: BorderSide(color: Colors.grey, width: 1),
                       ),
                     ),
                   ),
@@ -145,17 +175,22 @@ class _AddScreenState extends State<AddScreen> {
                     controller: txtStock,
                     keyboardType: TextInputType.number,
                     cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
+                    style: GoogleFonts.overpass(
+                        letterSpacing: 1, color: Colors.black),
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.auto_graph_rounded),
-                      label: Text('Product stock',style: GoogleFonts.overpass(color: Colors.black87,fontSize: 12.sp,letterSpacing: 1)),
+                      label: Text('Product stock',
+                          style: GoogleFonts.overpass(
+                              color: Colors.black87,
+                              fontSize: 12.sp,
+                              letterSpacing: 1)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 1.5)
-                      ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 1),
+                        borderSide: BorderSide(color: Colors.grey, width: 1),
                       ),
                     ),
                   ),
@@ -163,37 +198,57 @@ class _AddScreenState extends State<AddScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: TextFormField(
+                    onChanged: (value) {
+                      addController.imgLink.value = value;
+                    },
                     controller: txtImg,
                     keyboardType: TextInputType.url,
                     cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
+                    style: GoogleFonts.overpass(
+                        letterSpacing: 1, color: Colors.black),
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.image_outlined),
-                      label: Text('Product Image URL',style: GoogleFonts.overpass(color: Colors.black87,fontSize: 12.sp,letterSpacing: 1)),
+                      label: Text('Product Image URL',
+                          style: GoogleFonts.overpass(
+                              color: Colors.black87,
+                              fontSize: 12.sp,
+                              letterSpacing: 1)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 1.5)
-                      ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 1),
+                        borderSide: BorderSide(color: Colors.grey, width: 1),
                       ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    height: 20.h,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+                  child: Obx(
+                    () => Container(
+                      height: 20.h,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(width: 1,color: Colors.grey)
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(5.sp),
+                      child: addController.imgLink.value == ''
+                          ? Image.asset(
+                              'assets/add/img.png',
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(child: Image.network('${txtImg.text}')),
+                            ),
                     ),
-                    child: Container(height:10.h,child: Image.asset('assets/add/img.png',)),
-                  )
+                  ),
                 ),
-
                 ElevatedButton(
                   onPressed: () {
                     // String pname = txtName.text;
