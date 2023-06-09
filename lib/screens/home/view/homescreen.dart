@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:furniture_admin/screens/home/model/homemodel.dart';
 import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:furniture_admin/utils/firebase_notification.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,6 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          onPressed: () {
+            Get.toNamed('/add');
+          },
+          child: Icon(Icons.add,color: Colors.white),
+        ),
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.white,
