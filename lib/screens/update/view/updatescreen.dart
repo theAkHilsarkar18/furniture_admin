@@ -1,35 +1,50 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:furniture_admin/screens/add/controller/addcontroller.dart';
-import 'package:furniture_admin/screens/home/controller/homecontroller.dart';
-import 'package:furniture_admin/screens/home/model/homemodel.dart';
-import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+import '../../../utils/firebase_helper.dart';
+import '../../add/controller/addcontroller.dart';
+import '../../home/controller/homecontroller.dart';
+
+class UpdateScreen extends StatefulWidget {
+  const UpdateScreen({super.key});
 
   @override
-  State<AddScreen> createState() => _AddScreenState();
+  State<UpdateScreen> createState() => _UpdateScreenState();
 }
 
-class _AddScreenState extends State<AddScreen> {
+AddController addController = Get.put(AddController());
+HomeController homeController = Get.put(HomeController());
+
+
+
+class _UpdateScreenState extends State<UpdateScreen> {
+
+
+
+  int index = Get.arguments;
   TextEditingController txtName = TextEditingController();
-  TextEditingController txtPrice = TextEditingController();
-  TextEditingController txtDesc = TextEditingController();
-  TextEditingController txtRating = TextEditingController();
-  TextEditingController txtStock = TextEditingController();
-  TextEditingController txtCategoryId = TextEditingController();
   TextEditingController txtImg = TextEditingController();
-
-  AddController addController = Get.put(AddController());
-  HomeController homeController = Get.put(HomeController());
-
+  TextEditingController txtDesc = TextEditingController();
+  TextEditingController txtCategoryId = TextEditingController();
+  TextEditingController txtPrice = TextEditingController();
+  TextEditingController txtStock = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    txtName = TextEditingController(text: '${homeController.productList[index].name}');
+    txtImg = TextEditingController(text: '${homeController.productList[index].img}');
+    txtDesc = TextEditingController(text: '${homeController.productList[index].description}');
+    txtCategoryId = TextEditingController(text: '${homeController.productList[index].categoryId}');
+    txtPrice = TextEditingController(text: '${homeController.productList[index].price}');
+    txtStock = TextEditingController(text: '${homeController.productList[index].stock}');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -38,7 +53,7 @@ class _AddScreenState extends State<AddScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: Text('Add Products',
+          title: Text('Update Product',
               style: GoogleFonts.overpass(
                   color: Colors.black,
                   fontSize: 15.sp,
@@ -63,7 +78,7 @@ class _AddScreenState extends State<AddScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Obx(
-                        () => Row(
+                            () => Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
@@ -78,13 +93,13 @@ class _AddScreenState extends State<AddScreen> {
                                     color: Colors.black87,
                                     fontSize: 12.sp,
                                     letterSpacing: 1)):Obx(
-                                      () =>  Text('${addController.selectedCategory.value}',
-                                style: GoogleFonts.overpass(
+                                  () =>  Text('${addController.selectedCategory.value}',
+                                  style: GoogleFonts.overpass(
                                       color: Colors.black87,
                                       fontSize: 12.sp,
                                       // fontWeight: FontWeight.w500,
                                       letterSpacing: 1)),
-                                    ),
+                            ),
                             Spacer(),
                             InkWell(
                                 onTap: () {
@@ -94,7 +109,7 @@ class _AddScreenState extends State<AddScreen> {
                                     context: context,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadiusDirectional.circular(10)),
+                                        BorderRadiusDirectional.circular(10)),
                                     builder: (context) => Container(height: 13.h,child: categoryBox()),
                                   );
                                 },
@@ -126,7 +141,7 @@ class _AddScreenState extends State<AddScreen> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: Colors.grey, width: 1.5)),
+                          BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -152,7 +167,7 @@ class _AddScreenState extends State<AddScreen> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: Colors.grey, width: 1.5)),
+                          BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -181,7 +196,7 @@ class _AddScreenState extends State<AddScreen> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: Colors.grey, width: 1.5)),
+                          BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -207,7 +222,7 @@ class _AddScreenState extends State<AddScreen> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: Colors.grey, width: 1.5)),
+                          BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -236,7 +251,7 @@ class _AddScreenState extends State<AddScreen> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: Colors.grey, width: 1.5)),
+                          BorderSide(color: Colors.grey, width: 1.5)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -258,7 +273,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                     ),
                     child: Obx(
-                      () => Container(
+                          () => Container(
                         height: 17.h,
                         // width: 35.w,
                         decoration: BoxDecoration(
@@ -268,11 +283,11 @@ class _AddScreenState extends State<AddScreen> {
                         child: addController.imgLink.value == ''
                             ? Image.asset('assets/add/img.png')
                             : ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  '${addController.imgLink.value}',
-                                  fit: BoxFit.cover,
-                                )),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              '${addController.imgLink.value}',
+                              fit: BoxFit.cover,
+                            )),
                       ),
                     ),
                   ),
@@ -289,11 +304,11 @@ class _AddScreenState extends State<AddScreen> {
                         'stock': txtStock.text,
                         'adminId': '${homeController.adminId.value}',
                       };
-
-                      FirebaseHelper.firebaseHelper.addProductDetail(m1);
+                      FirebaseHelper.firebaseHelper.updateProduct(homeController.productList[index].productId!, m1);
+                      // FirebaseHelper.firebaseHelper.addProductDetail(m1);
                       Get.back();
                     },
-                    child: addProductBox()),
+                    child: updateProductBox()),
               ],
             ),
           ),
@@ -320,7 +335,7 @@ class _AddScreenState extends State<AddScreen> {
             backgroundColor: Colors.black87,
             radius: 32.sp,
             child: Container(
-              margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
                 height: 10.h,
                 alignment: Alignment.center,
                 child: Column(
@@ -339,7 +354,7 @@ class _AddScreenState extends State<AddScreen> {
 
 
 
-  Widget addProductBox() {
+  Widget updateProductBox() {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 20),
       height: 6.h,
@@ -349,9 +364,10 @@ class _AddScreenState extends State<AddScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       alignment: Alignment.center,
-      child: Text('Add product',
+      child: Text('Update product',
           style: GoogleFonts.overpass(
               color: Colors.white, letterSpacing: 1, fontSize: 13.sp)),
     );
   }
+
 }

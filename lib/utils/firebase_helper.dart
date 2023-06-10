@@ -70,7 +70,8 @@ class FirebaseHelper
     String? email = user!.email;
     String? img = user.photoURL;
     String? name = user.displayName;
-    Map m1 = {'email':email,'img':img,'name':name};
+    String? phone = user.phoneNumber;
+    Map m1 = {'email':email,'img':img,'name':name,'phone':phone};
     return m1;
   }
 
@@ -106,11 +107,12 @@ class FirebaseHelper
     return firebaseFirestore.collection('ProductList').snapshots();
   }
 
-  // edit data of firebase
+  // edit data of firebase / update product
 
-  void editProduct(String docId,Map<String,dynamic> m1)
+  void updateProduct(String docId,Map<String,dynamic> m1)
   {
-    firebaseFirestore.collection('Admin').doc(id).collection('ProductList').doc(docId).set(m1);
+    print('Product id = $docId');
+    firebaseFirestore.collection('ProductList').doc(docId).set(m1);
     print('Product edited');
   }
 
@@ -122,5 +124,21 @@ class FirebaseHelper
     print('Product deleted');
   }
 
+
+
+  // TODO -----------------------admin login security----------------------------------
+
+  void addAdminProfileData(Map<String , dynamic> m1)
+  {
+    firebaseFirestore.collection('AdminProfile').doc('${homeController.adminId.value}').set(m1);
+    print('admin data added');
+  }
+
+  // data read for login for admin and show in profile
+
+  void readAdminProfileData()
+  {
+
+  }
 
 }

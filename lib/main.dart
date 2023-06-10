@@ -7,6 +7,7 @@ import 'package:furniture_admin/screens/add/view/addscree.dart';
 import 'package:furniture_admin/screens/home/view/homescreen.dart';
 import 'package:furniture_admin/screens/signin/view/signin.dart';
 import 'package:furniture_admin/screens/signin/view/signup.dart';
+import 'package:furniture_admin/screens/update/view/updatescreen.dart';
 import 'package:furniture_admin/utils/firebase_helper.dart';
 import 'package:furniture_admin/utils/firebase_notification.dart';
 import 'package:get/get.dart';
@@ -26,12 +27,14 @@ async {
           useMaterial3: true
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/signin',
         getPages: [
           GetPage(name: '/', page:() => HomeScreen()),
           GetPage(name: '/signin', page:() => SigninScreen()),
           GetPage(name: '/signup', page:() => SignupScreen()),
           GetPage(name: '/add', page:() => AddScreen()),
+          GetPage(name: '/update', page:() => UpdateScreen()),
+
         ],
       ),
     ),

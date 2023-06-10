@@ -6,12 +6,15 @@ import 'package:sizer/sizer.dart';
 class AddController extends GetxController
 {
   RxString imgLink = ''.obs;
-  RxString categoryIndex = ''.obs;
+  RxInt categoryIndex = 0.obs;
   RxString selectedCategory = ''.obs;
 
-  void selectCategory(String category)
+  void selectCategory(String category,int index)
   {
+    categoryIndex.value = index+1;
     selectedCategory.value = category;
+    print('${categoryIndex.value}----------------category index');
+    print('${selectedCategory.value}---------------- selected category');
   }
 
   List<Icon> categoryList = [
@@ -26,10 +29,12 @@ class AddController extends GetxController
     Icon(Icons.tv,color: Colors.white,size: 35),
   ];
 
+
+
   List categoryNameList = [
     'Chair',
     'Bed',
-    'Armchair',
+    'Sofa',
     'Lights',
     'Trees',
     'Bathroom',

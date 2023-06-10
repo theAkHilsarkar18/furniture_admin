@@ -15,6 +15,7 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   TextEditingController txtEmail = TextEditingController();
+  TextEditingController txtPhone = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   SigninController signinController = Get.put(SigninController());
   @override
@@ -60,7 +61,8 @@ class _SigninScreenState extends State<SigninScreen> {
                     cursorColor: Colors.black,
                     style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
                     decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
+                      prefixIcon: Icon(Icons.email_outlined,color: Colors.grey),
+                      // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
                       label: Text('Email',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -73,7 +75,31 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 0.5.h,),
+                // TODO textfield for mobile
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: TextFormField(
+                //     controller: txtPhone,
+                //     keyboardType: TextInputType.emailAddress,
+                //     cursorColor: Colors.black,
+                //     style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
+                //     decoration: InputDecoration(
+                //       prefixIcon: Icon(Icons.call,color: Colors.grey),
+                //       // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
+                //       label: Text('Mobile number',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
+                //       focusedBorder: OutlineInputBorder(
+                //           borderRadius: BorderRadius.circular(10),
+                //           borderSide: BorderSide(color: Colors.grey)
+                //       ),
+                //       enabledBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //         borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 0.5.h,),
                 // TODO textfield for password
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -86,9 +112,10 @@ class _SigninScreenState extends State<SigninScreen> {
                       cursorColor: Colors.black,
                       style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
                       decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock,color: Colors.grey),
                         suffixIcon: InkWell(onTap: () {
                           signinController.visibilityChangeOfPassword();
-                        },child: signinController.isVisible.isFalse?Icon(Icons.visibility_off,color: Colors.grey):Icon(Icons.visibility,color: Colors.grey)),
+                        },child: signinController.isVisible.isTrue?Icon(Icons.visibility_off,color: Colors.grey):Icon(Icons.visibility,color: Colors.grey)),
                         label: Text('Password',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -108,6 +135,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 InkWell(onTap: () async {
                   String email = txtEmail.text;
                   String password = txtPassword.text;
+                  String phone = txtPhone.text;
                   if(email.isEmpty && password.isEmpty)
                   {
                     Get.snackbar('Email and Password are empty', 'Please enter a valid email and password!');
@@ -120,6 +148,10 @@ class _SigninScreenState extends State<SigninScreen> {
                   {
                     Get.snackbar('Password is empty', 'Please enter password !');
                   }
+                  // else if(phone.isEmpty)
+                  //   {
+                  //     Get.snackbar('Mobile number is empty', 'Please enter password !');
+                  //   }
                   else if(email.isNotEmpty && password.isNotEmpty)
                   {
                     String msg = await FirebaseHelper.firebaseHelper.signIn(email: email, password: password);

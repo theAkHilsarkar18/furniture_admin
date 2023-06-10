@@ -46,6 +46,7 @@ dependencies:
   flutter_local_notifications: ^14.1.1
   http: ^1.0.0
   firebase_messaging: any
+  firebase_phone_auth_handler: ^1.0.8
 
 
 dev_dependencies:

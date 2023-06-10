@@ -24,15 +24,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          onPressed: () {
-            addController.imgLink.value = '';
-            addController.selectedCategory.value = '';
-            print('${addController.imgLink.value} ===img link ===========');
-            Get.toNamed('/add');
-          },
-          child: Icon(Icons.add, color: Colors.white),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FloatingActionButton(
+              backgroundColor: Colors.black,
+              onPressed: () {
+
+              },
+              child: Icon(Icons.person, color: Colors.white),
+            ),
+            FloatingActionButton(
+              backgroundColor: Colors.black,
+              onPressed: () {
+                addController.imgLink.value = '';
+                addController.selectedCategory.value = '';
+                print('${addController.imgLink.value} ===img link ===========');
+                Get.toNamed('/add');
+              },
+              child: Icon(Icons.add, color: Colors.white),
+            ),
+          ],
         ),
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
@@ -131,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 5,
                     ),
+                    // product name
                     Text(
                       '${name}',
                       style: GoogleFonts.overpass(
@@ -186,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         categoryId == 1
                             ? Text(
-                                'Sofa',
+                                'Chair',
                                 style: GoogleFonts.overpass(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w600,
@@ -195,21 +208,75 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             : categoryId == 2
                                 ? Text(
-                                    'Arm chair',
-                                    style: GoogleFonts.overpass(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 10.sp,
-                                    ),
-                                  )
-                                : Text(
                                     'Bed',
                                     style: GoogleFonts.overpass(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 10.sp,
                                     ),
-                                  ),
+                                  )
+                                : categoryId == 3 ? Text(
+                                    'Sofa',
+                                    style: GoogleFonts.overpass(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10.sp,
+                                    ),
+                                  )
+                            :categoryId==4
+                            ?Text(
+                          'Lights',
+                          style: GoogleFonts.overpass(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                            :categoryId == 5
+                        ? Text(
+                          'Trees',
+                          style: GoogleFonts.overpass(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                            : categoryId== 6
+                        ?Text(
+                          'Bathroom',
+                          style: GoogleFonts.overpass(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                            : categoryId == 7
+                        ? Text(
+                          'Kitchen',
+                          style: GoogleFonts.overpass(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                            : categoryId == 8
+                        ? Text(
+                          'Window',
+                          style: GoogleFonts.overpass(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                            : Text(
+                          'TV',
+                          style: GoogleFonts.overpass(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp,
+                          ),
+                        )
+
                       ],
                     ),
                     SizedBox(
@@ -252,8 +319,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   '\$ ${price}/-',
                   style: GoogleFonts.overpass(
-                    color: Colors.black,
-                    fontSize: 13.sp,
+                    color: Colors.black87,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -262,29 +329,48 @@ class _HomeScreenState extends State<HomeScreen> {
               Spacer(),
               InkWell(
                 onTap: () {
-                  // delete method
-                  String? docId = homeController.productList[index].productId;
-                  FirebaseHelper.firebaseHelper.deleteProduct(docId!);
+                  // edit screen
+                  addController.selectedCategory.value = addController.categoryNameList[homeController.productList[index].categoryId!-1];
+                  addController.imgLink.value = homeController.productList[index].img!;
+                  Get.toNamed('/update',arguments: index);
+                  print('homescreen update index $index');
                 },
-                child: Icon(
-                  Icons.delete,
-                  size: 18.sp,
-                  color: Colors.grey,
-                ),
+                child: Text('Update',style: GoogleFonts.poppins(color: Colors.green,fontSize: 11.sp)),
               ),
               SizedBox(
                 width: 3.w,
               ),
               InkWell(
                 onTap: () {
-                  // edit method
+                  // delete method
+                  // String? docId = homeController.productList[index].productId;
+                  // FirebaseHelper.firebaseHelper.deleteProduct(docId!);
+
+                  Get.defaultDialog(
+                    radius: 10,
+                    contentPadding: EdgeInsets.all(10),
+                    backgroundColor: Colors.white,
+                    title: 'Delete ?',
+                    titleStyle: GoogleFonts.poppins(fontSize: 15.sp,color: Colors.black,fontWeight: FontWeight.w500),
+                    content: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('Are you sure want to delete this product ?',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp)),
+                    ),
+                    actions: [
+                      InkWell(onTap: () {
+                        Get.back();
+                      },child: Text('Cancel',style: GoogleFonts.poppins(color: Colors.black87,fontSize: 12.sp,fontWeight: FontWeight.w500))),
+                      SizedBox(width: 2.w,),
+                      InkWell(onTap: () {
+                        String? docId = homeController.productList[index].productId;
+                        FirebaseHelper.firebaseHelper.deleteProduct(docId!);
+                      },child: Text('Delete',style: GoogleFonts.poppins(color: Colors.red,fontSize: 12.sp,fontWeight: FontWeight.w500))),
+                    ]
+                  );
                 },
-                child: Icon(
-                  Icons.edit_square,
-                  size: 16.sp,
-                  color: Colors.grey,
-                ),
+                child: Text('Delete',style: GoogleFonts.poppins(color: Colors.red,fontSize: 11.sp)),
               ),
+
             ],
           ),
           Divider(color: Colors.grey, thickness: 0.2),
