@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget productBox(int index, String img, String name, String desc, int stock,
-      int categoryId, int rating, String price) {
+      int categoryId, int rating, int price) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(5.sp),
