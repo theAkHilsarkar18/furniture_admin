@@ -299,7 +299,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         'categoryId': addController.categoryIndex.value,
                         'img': txtImg.text,
                         'name': txtName.text,
-                        'price': txtPrice.text,
+                        'price': int.parse(txtPrice.text),
                         'rating': '4',
                         'stock': txtStock.text,
                         'adminId': '${homeController.adminId.value}',

@@ -47,30 +47,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 4.h,),
-                // TODO textfield for name
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    controller: txtName,
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person_outline,color: Colors.grey),
-                      // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
-                      label: Text('Name',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 0.5),
-                      ),
-                    ),
-                  ),
-                ),
+                SizedBox(height: 10.h,),
+
                 // TODO textfield for email
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -85,113 +63,16 @@ class _SignupScreenState extends State<SignupScreen> {
                       label: Text('Email',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey)
+                          borderSide: BorderSide(color: Colors.grey,width: 1.5)
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                        borderSide: BorderSide(color: Colors.grey,width: 1),
                       ),
                     ),
                   ),
                 ),
-                // TODO textfield for MOBILE number
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    controller: txtPhone,
-                    keyboardType: TextInputType.phone,
-                    maxLength: 10,
-                    cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      prefixIcon: Icon(Icons.phone,color: Colors.grey),
-                      // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
-                      label: Text('Mobile number',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 0.5),
-                      ),
-                    ),
-                  ),
-                ),
-                // TODO textfield for PAN detail
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    controller: txtPan,
-                    maxLength:10,
-                    cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      prefixIcon: Icon(Icons.credit_score,color: Colors.grey),
-                      // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
-                      label: Text('PAN no.',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 0.5),
-                      ),
-                    ),
-                  ),
-                ),
-                // TODO textfield for GST detail
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    controller: txtGSTno,
-                    maxLength:15,
-                    cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      prefixIcon: Icon(Icons.gavel_outlined,color: Colors.grey),
-                      // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
-                      label: Text('GST no.',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 0.5),
-                      ),
-                    ),
-                  ),
-                ),
-                // TODO textfield for address address
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    controller: txtAddress,
-                    keyboardType: TextInputType.streetAddress,
-                    maxLength:100,
-                    cursorColor: Colors.black,
-                    style: GoogleFonts.overpass(letterSpacing: 1,color: Colors.black),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      prefixIcon: Icon(Icons.home_outlined,color: Colors.grey),
-                      // suffixIcon: Icon(Icons.keyboard_arrow_down,color: Colors.grey),
-                      label: Text('Address',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey,width: 0.5),
-                      ),
-                    ),
-                  ),
-                ),
+
                 // TODO textfield for password
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -211,11 +92,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         label: Text('Password',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.grey)
+                            borderSide: BorderSide(color: Colors.grey,width: 1.5)
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                          borderSide: BorderSide(color: Colors.grey,width:1),
                         ),
                       ),
                     ),
@@ -240,11 +121,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         label: Text('Confirm Password',style: GoogleFonts.overpass(color: Colors.grey,fontSize: 15,letterSpacing: 1)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.grey)
+                            borderSide: BorderSide(color: Colors.grey,width: 1.5)
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                          borderSide: BorderSide(color: Colors.grey,width: 1),
                         ),
                       ),
                     ),
@@ -257,31 +138,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   String confpass = txtConfPassword.text;
                   if(pass1==confpass)
                   {
-
-                    String name = txtName.text;
                     String email = txtEmail.text;
-                    String phone = txtPhone.text;
-                    String pan = txtPan.text;
-                    String gst = txtGSTno.text;
-                    String address = txtAddress.text;
                     String password = txtPassword.text;
-
-                    Map<String,dynamic> m1 = {
-                      'name':name,
-                      'email':email,
-                      'phone':phone,
-                      'pan':pan,
-                      'gst':gst,
-                      'address':address,
-                      'password':password,
-                    };
-                    FirebaseHelper.firebaseHelper.addAdminProfileData(m1);
-
-                    String msg = await FirebaseHelper.firebaseHelper.signUp(email: email, password: password, name: name);
+                    String msg = await FirebaseHelper.firebaseHelper.signUp(email: email, password: password,);
                     if(msg=='Success')
                     {
                       print('$msg');
-                      Get.back();
+                     Get.offAndToNamed('/admin',arguments: {'email':email,'password':password});
                     }
                     else
                     {
@@ -330,7 +193,7 @@ class _SignupScreenState extends State<SignupScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       alignment: Alignment.center,
-      child: Text('Sign up',style: GoogleFonts.overpass(color: Colors.white,letterSpacing: 1,fontSize: 13.sp)),
+      child: Text('Next',style: GoogleFonts.overpass(color: Colors.white,letterSpacing: 1,fontSize: 13.sp)),
     );
   }
 

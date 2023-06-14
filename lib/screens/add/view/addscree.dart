@@ -27,7 +27,12 @@ class _AddScreenState extends State<AddScreen> {
 
   AddController addController = Get.put(AddController());
   HomeController homeController = Get.put(HomeController());
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseHelper.firebaseHelper.getUserDetail();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -284,7 +289,7 @@ class _AddScreenState extends State<AddScreen> {
                         'categoryId': addController.categoryIndex.value,
                         'img': txtImg.text,
                         'name': txtName.text,
-                        'price': txtPrice.text,
+                        'price': int.parse(txtPrice.text),
                         'rating': '4',
                         'stock': txtStock.text,
                         'adminId': '${homeController.adminId.value}',
@@ -301,6 +306,7 @@ class _AddScreenState extends State<AddScreen> {
       ),
     );
   }
+
 
   Widget categoryBox() {
     return ListView.builder(

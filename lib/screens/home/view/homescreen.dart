@@ -24,27 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            FloatingActionButton(
-              backgroundColor: Colors.black,
-              onPressed: () {
-
-              },
-              child: Icon(Icons.person, color: Colors.white),
-            ),
-            FloatingActionButton(
-              backgroundColor: Colors.black,
-              onPressed: () {
-                addController.imgLink.value = '';
-                addController.selectedCategory.value = '';
-                print('${addController.imgLink.value} ===img link ===========');
-                Get.toNamed('/add');
-              },
-              child: Icon(Icons.add, color: Colors.white),
-            ),
-          ],
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          onPressed: () {
+            addController.imgLink.value = '';
+            addController.selectedCategory.value = '';
+            print('${addController.imgLink.value} ===img link ===========');
+            Get.toNamed('/add');
+          },
+          child: Icon(Icons.add, color: Colors.white),
         ),
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
@@ -56,6 +44,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w500)),
+        ),
+        drawer: Drawer(
+          backgroundColor: Colors.white,
+
+          child: Column(
+            children: [
+              Container(
+                height: 20.h,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.black38
+                ),
+                child: Column(
+
+                  children: [
+                    SizedBox(height: 1.h,),
+                    CircleAvatar(
+                      radius: 35.sp,
+                      backgroundColor: Colors.white,
+                      backgroundImage: NetworkImage(
+                          'https://freesvg.org/img/abstract-user-flat-4.png'),
+                    ),
+                    SizedBox(height: 1.h,),
+                    Text('Akhil Sodvadiya',style: GoogleFonts.overpass(color: Colors.white,fontSize: 15.sp)),
+                    Text('akhilsodvadiya@gmail.com',style: GoogleFonts.overpass(color: Colors.white)),
+                  ],
+                ),
+              ),
+              InkWell(onTap: () async {
+                await FirebaseHelper.firebaseHelper.signOut();
+                Get.offAndToNamed('/splesh');
+              },child: ListTile(leading: Icon(Icons.logout,color: Colors.black,),title: Text('Logout',style: GoogleFonts.overpass(color: Colors.black,fontWeight: FontWeight.w500),))),
+            ],
+          ),
         ),
         backgroundColor: Colors.white,
         body: StreamBuilder(

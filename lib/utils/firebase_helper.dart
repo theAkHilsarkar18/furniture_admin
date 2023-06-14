@@ -13,7 +13,7 @@ class FirebaseHelper
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   /// signUp method
-  Future<String> signUp({required email , required password, required name})
+  Future<String> signUp({required email , required password})
   async {
     return await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password).then((value) {
       return 'Success';
@@ -130,7 +130,7 @@ class FirebaseHelper
 
   void addAdminProfileData(Map<String , dynamic> m1)
   {
-    firebaseFirestore.collection('AdminProfile').doc('${homeController.adminId.value}').set(m1);
+    firebaseFirestore.collection('AdminProfile').doc(id).set(m1);
     print('admin data added');
   }
 
