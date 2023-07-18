@@ -76,6 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 await FirebaseHelper.firebaseHelper.signOut();
                 Get.offAndToNamed('/splesh');
               },child: ListTile(leading: Icon(Icons.logout,color: Colors.black,),title: Text('Logout',style: GoogleFonts.overpass(color: Colors.black,fontWeight: FontWeight.w500),))),
+              InkWell(
+                onTap: () {
+                  Get.toNamed('/about');
+                },
+                child: ListTile(
+                  leading: Icon(Icons.info_outline,color: Colors.black),
+                  title: Text("about",style: GoogleFonts.poppins(color: Colors.black,letterSpacing: 1)),
+                ),
+              ),
+
             ],
           ),
         ),
@@ -386,6 +396,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       InkWell(onTap: () {
                         String? docId = homeController.productList[index].productId;
                         FirebaseHelper.firebaseHelper.deleteProduct(docId!);
+                        Get.back();
                       },child: Text('Delete',style: GoogleFonts.poppins(color: Colors.red,fontSize: 12.sp,fontWeight: FontWeight.w500))),
                     ]
                   );
